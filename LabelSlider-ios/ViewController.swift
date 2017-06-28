@@ -15,12 +15,20 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.isUserInteractionEnabled = true
+        
         lslider.center = view.center
         lslider.names = ["1/500", "1/250", "1/125", "1/100", "1/50", "1/25", "1/20", "1/15", "1/10", "1/5","1/3"]
         lslider.value = 0
         lslider.ticksDistance = lslider.bounds.width / CGFloat(lslider.tickCount)
+        
+        
+        /*
+         Per gestire gli eventi di touchedBegan e touchedMove da questa view (ViewController) è necessario disattivare la userInteractionForSubviews per lslider ed attivare la isUserInteractionEnabled per view. A questo punto basta
+         sovrascrivere TouchedBegan e TouchedMoved di questa classe (VievController) in modo da richiamare automaticamente i metodi di LabelSlider (che si occupano di gestire i tocchi solo all'intero dei propri confini: in questo modo possiamo gestire le interazioni solamente interne a lslider ed allo stesso tempo possiamo gestire il cambiamento dei valori (selezionati dall'utente)
+        */
         //lslider.userInteractionForSubviews = true
+        view.isUserInteractionEnabled = true
+        
         
         //too many names for portrait orientation
         lslider.rotationAngle = CGFloat.pi / 2
@@ -50,18 +58,22 @@ class ViewController: UIViewController {
         valueLabel.textColor = .yellow
         valueLabel.adjustsFontSizeToFitWidth = true
         valueLabel.text = lslider.names[Int(lslider.value)]
-        
         view.addSubview(valueLabel)
         
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        lslider.touchesBegan(touches, with: event)
-        valueLabel.text = lslider.names[Int(lslider.value)]
+        if (lslider.frame.contains(touches.first!.location(in: view))) {
+            lslider.touchesBegan(touches, with: event)
+            valueLabel.text = lslider.names[Int(lslider.value)]
+        }
+        
     }
+    
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        lslider.touchesMoved(touches, with: event)
-        valueLabel.text = lslider.names[Int(lslider.value)]
+        if(lslider.frame.contains(touches.first!.location(in: view))) {
+            lslider.touchesBegan(touches, with: event)
+            valueLabel.text = lslider.names[Int(lslider.value)]
+        }
     }
 }
-
