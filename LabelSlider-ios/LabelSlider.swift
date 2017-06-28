@@ -188,11 +188,13 @@ class LabelSlider: UIControl {
     required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         initProperties()
+        isUserInteractionEnabled = true
     }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         initProperties()
+        isUserInteractionEnabled = true
     }
     
     // clickthrough

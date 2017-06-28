@@ -11,7 +11,7 @@ import UIKit
 class ViewController: UIViewController {
     
     let lslider = LabelSlider(frame: CGRect(x: 0, y: 0, width: 360, height: 20))
-    let valueLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 30, height: 20))
+    let valueLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,7 +39,6 @@ class ViewController: UIViewController {
         lslider.downFontSize = 13
         lslider.downFontColor = UIColor.gray
         lslider.upFontColor = UIColor.yellow
-        
         
         view.addSubview(lslider)
         
@@ -72,7 +71,7 @@ class ViewController: UIViewController {
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         if(lslider.frame.contains(touches.first!.location(in: view))) {
-            lslider.touchesBegan(touches, with: event)
+            lslider.touchesMoved(touches, with: event)
             valueLabel.text = lslider.names[Int(lslider.value)]
         }
     }
