@@ -20,7 +20,7 @@ class ViewController: UIViewController {
         lslider.names = ["1/500", "1/250", "1/125", "1/100", "1/50", "1/25", "1/20", "1/15", "1/10", "1/5","1/3"]
         lslider.value = 0
         lslider.ticksDistance = lslider.bounds.width / CGFloat(lslider.tickCount)
-        
+        lslider.animationDuration = 0.1
         
         /*
          Per gestire gli eventi di touchedBegan e touchedMove da questa view (ViewController) è necessario disattivare la userInteractionForSubviews per lslider ed attivare la isUserInteractionEnabled per view. A questo punto basta
