@@ -404,6 +404,16 @@ class LabelSlider: UIControl {
         let newValue = updateValue(touch: touches.first!)
         value = newValue
     }
+    
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        let newValue = updateValue(touch: touches.first!)
+        value = newValue
+    }
+    
+    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
+        let newValue = lastValue(touch: touches.first!)
+        value = newValue
+    }
 }
 
 extension LabelSlider {
@@ -414,7 +424,7 @@ extension LabelSlider {
     }
     
     fileprivate func updateValue(touch: UITouch) -> UInt {
-        let precisePoint = touch.location(in: self)
+        let precisePoint = touch.location(in: touch.view!)
         let newValue = (precisePoint.x / bounds.width) * CGFloat(tickCount)
         if newValue < 0 {
             return 0
@@ -424,4 +434,14 @@ extension LabelSlider {
         return UInt(newValue)
     }
     
+    fileprivate func lastValue(touch: UITouch) -> UInt {
+        let precisePoint = touch.preciseLocation(in: touch.view!)
+        let newValue = (precisePoint.x / bounds.width) * CGFloat(tickCount)
+        if newValue < 0 {
+            return 0
+        } else if UInt(newValue) >= names.count {
+            return UInt(names.count - 1)
+        }
+        return UInt(newValue)
+    }
 }

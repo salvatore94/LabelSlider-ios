@@ -12,6 +12,7 @@ class ViewController: UIViewController {
     
     let lslider = LabelSlider(frame: CGRect(x: 0, y: 0, width: 360, height: 20))
     let valueLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
+    var touchInsideSliderView = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -62,7 +63,8 @@ class ViewController: UIViewController {
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if (lslider.frame.contains(touches.first!.location(in: view))) {
+        if (lslider.frame.contains(touches.first!.location(in: view)) || touchInsideSliderView == true) {
+            touchInsideSliderView = true
             lslider.touchesBegan(touches, with: event)
             valueLabel.text = lslider.names[Int(lslider.value)]
         }
@@ -70,9 +72,25 @@ class ViewController: UIViewController {
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if(lslider.frame.contains(touches.first!.location(in: view))) {
+        if(touchInsideSliderView == true) {
             lslider.touchesMoved(touches, with: event)
             valueLabel.text = lslider.names[Int(lslider.value)]
+        }
+    }
+    
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if(touchInsideSliderView == true) {
+            lslider.touchesEnded(touches, with: event)
+            valueLabel.text = lslider.names[Int(lslider.value)]
+            touchInsideSliderView = false
+        }
+    }
+    
+    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if (touchInsideSliderView == true) {
+            lslider.touchesCancelled(touches, with: event)
+            valueLabel.text = lslider.names[Int(lslider.value)]
+            touchInsideSliderView = false
         }
     }
 }
