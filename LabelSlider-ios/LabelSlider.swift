@@ -397,22 +397,26 @@ class LabelSlider: UIControl {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         let newValue = updateValue(touch: touches.first!)
-        value = newValue
+        //value = newValue
+        setValue(value: newValue)
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         let newValue = updateValue(touch: touches.first!)
-        value = newValue
+        //value = newValue
+        setValue(value: newValue)
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         let newValue = updateValue(touch: touches.first!)
-        value = newValue
+        //value = newValue
+        setValue(value: newValue)
     }
     
     override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
         let newValue = lastValue(touch: touches.first!)
-        value = newValue
+        //value = newValue
+        setValue(value: newValue)
     }
 }
 
@@ -443,5 +447,10 @@ extension LabelSlider {
             return UInt(names.count - 1)
         }
         return UInt(newValue)
+    }
+    
+    fileprivate func setValue(value: UInt) {
+        self.value = value
+        setValue(value, forKeyPath: "value")
     }
 }
